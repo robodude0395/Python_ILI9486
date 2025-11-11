@@ -297,3 +297,27 @@ class ILI9486:
         self.command(CMD_SLPOUT)
         time.sleep(0.005)
         return self
+
+    def set_rotation(self, rotation: int):
+        """
+        Set rotation of the display.
+        rotation: 0=portrait, 1=landscape, 2=portrait flipped, 3=landscape flipped
+        """
+        rotation = rotation % 4
+        if rotation == 0:  # portrait
+            madctl = 0x28  # MY=0, MX=0, MV=0, BGR=1
+            self.__width, self.__height = LCD_WIDTH, LCD_HEIGHT
+        elif rotation == 1:  # landscape
+            madctl = 0xE8  # MV=1, BGR=1
+            self.__width, self.__height = LCD_HEIGHT, LCD_WIDTH
+        elif rotation == 2:  # portrait flipped
+            madctl = 0xA8  # MY=1, MX=1, MV=0, BGR=1
+            self.__width, self.__height = LCD_WIDTH, LCD_HEIGHT
+        else:  # landscape flipped
+            madctl = 0x68  # MV=1, MX=1, BGR=1
+            self.__width, self.__height = LCD_HEIGHT, LCD_WIDTH
+
+        self.__origin = madctl
+        self.command(CMD_MADCTL).data(madctl)
+        self.__buffer = Image.new('RGB', (self.__width, self.__height), (0, 0, 0))
+

@@ -129,9 +129,10 @@ class ILI9486:
         """Returns the current display dimensions"""
         return self.__width, self.__height
 
+    # ILI9486.py
     def is_landscape(self) -> bool:
-        """Returns true if selected origin is landscape mode; false otherwise"""
-        return bool(self.__origin.value & 0x20)
+        return bool(self.__origin & 0x20)  # remove .value
+
 
     def send(self, data, is_data=True, chunk_size=4096):
         """Writes a byte or an array of bytes to the display."""

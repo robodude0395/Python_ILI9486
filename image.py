@@ -19,6 +19,8 @@ if __name__ == '__main__':
         print(f'Initialized display with landscape mode = {lcd.is_landscape()} and dimensions {lcd.dimensions()}')
         print('Loading image...')
         image = Image.open('shrek.png')
+        if image.mode != "RGB":
+            image = image.convert("RGB")
         width, height = image.size
         partial = image.resize((width // 2, height // 2))
 

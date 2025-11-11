@@ -185,25 +185,23 @@ class ILI9486:
         if image is None:
             image = self.__buffer
 
-        # Display buffer
         disp_buffer = Image.new('RGB', (self.__width, self.__height))
 
-        # MADCTL rotation map
-        rotation_map = {
-            0x28: 0,    # portrait
-            0xE8: 270,  # landscape
-            0xA8: 180,  # portrait flipped
-            0x68: 90    # landscape flipped
+        # Map MADCTL to rotation and flips
+        transform_map = {
+            0x28: lambda im: im,                       # portrait
+            0xE8: lambda im: im.rotate(270),           # landscape
+            0xA8: lambda im: im.rotate(180),           # portrait flipped
+            0x68: lambda im: im.rotate(90),            # landscape flipped
         }
-        rot = rotation_map.get(self.__origin & 0xE8, 0)
 
-        if rot != 0:
-            rotated = image.rotate(rot, expand=False)
-            dx = (self.__width - rotated.width) // 2
-            dy = (self.__height - rotated.height) // 2
-            disp_buffer.paste(rotated, (dx, dy))
-        else:
-            disp_buffer.paste(image, (0, 0))
+        transform = transform_map.get(self.__origin & 0xE8, lambda im: im)
+        rotated_image = transform(image)
+
+        # Center image in buffer
+        dx = (self.__width - rotated_image.width) // 2
+        dy = (self.__height - rotated_image.height) // 2
+        disp_buffer.paste(rotated_image, (dx, dy))
 
         self.set_window(0, 0, self.__width - 1, self.__height - 1)
         data = image_to_data(disp_buffer)

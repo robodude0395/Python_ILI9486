@@ -225,15 +225,14 @@ class ILI9486:
         if image is None:
             image = self.__buffer
 
-        # Rotate the image according to the current MADCTL rotation
-        # Only rotate, don't flip
+        # Rotate the image according to the current MADCTL rotation (integer now)
         rotation_map = {
             0x28: 0,    # portrait
             0xE8: 270,  # landscape
             0xA8: 180,  # portrait flipped
             0x68: 90    # landscape flipped
         }
-        rot = rotation_map.get(self.__origin.value & 0xE8, 0)  # mask irrelevant bits
+        rot = rotation_map.get(self.__origin & 0xE8, 0)  # use __origin directly
         if rot != 0:
             image = image.rotate(rot, expand=True)
 
@@ -252,6 +251,7 @@ class ILI9486:
         self.command(CMD_WRMEM)
         self.data(list(data))
         return self
+
 
 
     def clear(self, color=(0, 0, 0)):

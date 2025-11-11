@@ -11,7 +11,6 @@ spi.mode = 0b10
 spi.max_speed_hz = 64000000
 
 lcd = LCD.ILI9486(dc=config.DC_PIN, rst=config.RST_PIN, spi=spi).begin()
-lcd.set_rotation(3)
 
 # Create canvas
 canvas = Canvas(*lcd.dimensions(), background=(128, 0, 128))  # purple background

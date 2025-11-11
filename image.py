@@ -18,7 +18,7 @@ if __name__ == '__main__':
         lcd = LCD.ILI9486(dc=config.DC_PIN, rst=config.RST_PIN, spi=spi).begin()
         print(f'Initialized display with landscape mode = {lcd.is_landscape()} and dimensions {lcd.dimensions()}')
         print('Loading image...')
-        image = Image.open('sample.png')
+        image = Image.open('shrek.png')
         width, height = image.size
         partial = image.resize((width // 2, height // 2))
 

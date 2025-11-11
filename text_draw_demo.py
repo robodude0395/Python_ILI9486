@@ -17,7 +17,7 @@ lcd.set_rotation(3)
 canvas = Canvas(*lcd.dimensions(), background=(128, 0, 128))  # purple background
 
 # Draw text and shapes
-canvas.text((50, 50), "Hello Canvas!", color=(255, 255, 255))
+canvas.text((50, 50), "Hello Canvas!", color=(255, 255, 255), text_size=34)
 canvas.rectangle((40, 40, 200, 80), outline=(255, 255, 0), width=2)
 
 # Display

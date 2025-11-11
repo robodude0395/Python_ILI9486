@@ -92,7 +92,7 @@ class ILI9486:
     @classmethod
     def landscape_dimensions(cls) -> tuple:
         """Returns the display dimensions in landscape mode, no matter what mode is used"""
-        return LCD_HEIGHT, LCD_WIDTH
+        return LCD_WIDTH, LCD_HEIGHT
 
     @classmethod
     def portrait_dimensions(cls) -> tuple:

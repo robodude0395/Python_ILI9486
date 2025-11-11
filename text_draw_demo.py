@@ -14,7 +14,7 @@ lcd = LCD.ILI9486(dc=config.DC_PIN, rst=config.RST_PIN, spi=spi).begin()
 lcd.set_rotation(3)
 
 # Create canvas
-canvas = Canvas(*lcd.dimensions(), background=(128, 0, 128))  # purple background
+canvas = Canvas(*lcd.dimensions()[::-1], background=(128, 0, 128))  # purple background
 
 # Draw text and shapes
 canvas.text((50, 50), "Hello Canvas!", color=(255, 255, 255), text_size=34)
